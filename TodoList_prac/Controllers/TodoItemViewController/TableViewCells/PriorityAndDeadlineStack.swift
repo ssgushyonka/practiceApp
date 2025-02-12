@@ -24,7 +24,7 @@ class PriorityAndDeadlineStack: UIStackView {
         self.layer.cornerRadius = 16
         self.layer.masksToBounds = true
 
-        priorityView.heightAnchor.constraint(equalToConstant: 60).isActive = true
-        deadlineView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        priorityView.heightAnchor.constraint(equalToConstant: 56).isActive = true
+        deadlineView.heightAnchor.constraint(equalToConstant: 56).isActive = true
     }
 }

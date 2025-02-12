@@ -5,18 +5,8 @@ class TodoDetailViewController: UIViewController {
     
     //MARK: - UI Components
     private let priorityAndDeadlineStack = PriorityAndDeadlineStack()
+    private let textView = CustomTextView()
     
-    private let textView: UITextView = {
-        let textView = UITextView()
-        textView.backgroundColor = .white
-        textView.textColor = .black
-        textView.text = "Что надо сделать?"
-        textView.font = UIFont.systemFont(ofSize: 16)
-        textView.layer.cornerRadius = 8
-        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         
