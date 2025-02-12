@@ -134,11 +134,10 @@
 		327639B22D5CA91A004F1EE6 /* TodoItemViewController */ = {
 			isa = PBXGroup;
 			children = (
+				32F88C202D5D645D00611B03 /* TodItemDetailView */,
 				32F88C1B2D5D48A500611B03 /* Buttons */,
-				327639C82D5D2DBD004F1EE6 /* TableViewCells */,
 				327639C32D5CFEF3004F1EE6 /* CustomTextView */,
 				327639B32D5CAF48004F1EE6 /* TodoItemTableViewCell.swift */,
-				327639B82D5CCD11004F1EE6 /* TodoDetailViewController.swift */,
 				327639BA2D5CD4BF004F1EE6 /* TodoTextView.swift */,
 			);
 			path = TodoItemViewController;
@@ -168,14 +167,14 @@
 			path = CustomTextView;
 			sourceTree = "<group>";
 		};
-		327639C82D5D2DBD004F1EE6 /* TableViewCells */ = {
+		327639C82D5D2DBD004F1EE6 /* PriorityAndDeadlineView */ = {
 			isa = PBXGroup;
 			children = (
 				327639C92D5D2DED004F1EE6 /* PriorityView.swift */,
 				327639CB2D5D2F82004F1EE6 /* DeadlineView.swift */,
 				327639CE2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift */,
 			);
-			path = TableViewCells;
+			path = PriorityAndDeadlineView;
 			sourceTree = "<group>";
 		};
 		32F88C1B2D5D48A500611B03 /* Buttons */ = {
@@ -184,6 +183,15 @@
 				32F88C1C2D5D48AD00611B03 /* CircleCheckmark.swift */,
 			);
 			path = Buttons;
+			sourceTree = "<group>";
+		};
+		32F88C202D5D645D00611B03 /* TodItemDetailView */ = {
+			isa = PBXGroup;
+			children = (
+				327639C82D5D2DBD004F1EE6 /* PriorityAndDeadlineView */,
+				327639B82D5CCD11004F1EE6 /* TodoDetailViewController.swift */,
+			);
+			path = TodItemDetailView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

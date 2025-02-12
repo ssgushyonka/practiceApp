@@ -7,6 +7,15 @@ class TodoDetailViewController: UIViewController {
     private let priorityAndDeadlineStack = PriorityAndDeadlineStack()
     private let textView = CustomTextView()
     
+    private let deleteButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Delete", for: .normal)
+        button.layer.cornerRadius = 16
+        button.backgroundColor = .white
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,6 +38,7 @@ class TodoDetailViewController: UIViewController {
     func setupUI() {
         view.addSubview(textView)
         view.addSubview(priorityAndDeadlineStack)
+        view.addSubview(deleteButton)
     }
     
     func setupConstraints() {
@@ -41,6 +51,11 @@ class TodoDetailViewController: UIViewController {
             priorityAndDeadlineStack.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 15),
             priorityAndDeadlineStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             priorityAndDeadlineStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            deleteButton.topAnchor.constraint(equalTo: priorityAndDeadlineStack.bottomAnchor, constant: 15),
+            deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            deleteButton.heightAnchor.constraint(equalToConstant: 56)
 
         ])
     }
