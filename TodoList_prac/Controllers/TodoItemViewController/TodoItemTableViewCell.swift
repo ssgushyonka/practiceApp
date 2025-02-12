@@ -19,7 +19,7 @@ class TodoItemTableViewCell: UITableViewCell {
     }
     func setupUI() {
         contentView.backgroundColor = .white
-        //contentView.layer.cornerRadius = 8
+        
     }
     func setupConstraints() {
         

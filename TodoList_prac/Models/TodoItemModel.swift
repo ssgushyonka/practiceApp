@@ -14,7 +14,6 @@ struct TodoItemModel {
     let isDone: Bool
     let createdDate: Date?
     let editedDate: Date?
-    //let color: String?
     
     init(id: String = UUID().uuidString, text: String, priority: Priority, deadline: Date?, isDone: Bool, createdDate: Date?, editedDate: Date?) {
         self.id = id
