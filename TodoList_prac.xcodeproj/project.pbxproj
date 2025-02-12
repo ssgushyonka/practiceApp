@@ -25,6 +25,7 @@
 		327639CC2D5D2F82004F1EE6 /* DeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327639CB2D5D2F82004F1EE6 /* DeadlineView.swift */; };
 		327639CF2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327639CE2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift */; };
 		327639D32D5D43BF004F1EE6 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 327639D22D5D43BF004F1EE6 /* .gitignore */; };
+		32F88C1D2D5D48C200611B03 /* CircleCheckmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F88C1C2D5D48AD00611B03 /* CircleCheckmark.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		327639CB2D5D2F82004F1EE6 /* DeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineView.swift; sourceTree = "<group>"; };
 		327639CE2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityAndDeadlineStack.swift; sourceTree = "<group>"; };
 		327639D22D5D43BF004F1EE6 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		32F88C1C2D5D48AD00611B03 /* CircleCheckmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCheckmark.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 		327639B22D5CA91A004F1EE6 /* TodoItemViewController */ = {
 			isa = PBXGroup;
 			children = (
+				32F88C1B2D5D48A500611B03 /* Buttons */,
 				327639C82D5D2DBD004F1EE6 /* TableViewCells */,
 				327639C32D5CFEF3004F1EE6 /* CustomTextField */,
 				327639B32D5CAF48004F1EE6 /* TodoItemTableViewCell.swift */,
@@ -173,6 +176,14 @@
 				327639CE2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift */,
 			);
 			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+		32F88C1B2D5D48A500611B03 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				32F88C1C2D5D48AD00611B03 /* CircleCheckmark.swift */,
+			);
+			path = Buttons;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -250,6 +261,7 @@
 				327639BB2D5CD4C0004F1EE6 /* TodoTextView.swift in Sources */,
 				327639B92D5CCD11004F1EE6 /* TodoDetailViewController.swift in Sources */,
 				327639C22D5CDF28004F1EE6 /* CoreDataStack.swift in Sources */,
+				32F88C1D2D5D48C200611B03 /* CircleCheckmark.swift in Sources */,
 				327639CA2D5D2DED004F1EE6 /* PriorityView.swift in Sources */,
 				327639A02D5CA624004F1EE6 /* TodoList_prac.xcdatamodeld in Sources */,
 				327639CF2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift in Sources */,

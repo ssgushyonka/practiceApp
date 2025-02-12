@@ -4,6 +4,7 @@ class PriorityView: UIView {
     
     private let label = UILabel()
     private let segmentedControl = UISegmentedControl(items: ["↓", "no", "‼️"])
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -15,14 +16,15 @@ class PriorityView: UIView {
     }
     
     private func setupView() {
-        label.text = "Важность"
+        label.text = "Priority"
         segmentedControl.selectedSegmentIndex = 1
         
         let stackView = UIStackView(arrangedSubviews: [label, segmentedControl])
         stackView.axis = .horizontal
         stackView.spacing = 16
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        
+        self.backgroundColor = .white
+        label.textColor = .black
         addSubview(stackView)
         
         NSLayoutConstraint.activate([

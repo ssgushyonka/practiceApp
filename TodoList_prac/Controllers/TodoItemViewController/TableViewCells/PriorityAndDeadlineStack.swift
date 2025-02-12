@@ -17,11 +17,13 @@ class PriorityAndDeadlineStack: UIStackView {
     
     func setupView() {
         self.axis = .vertical
-        self.spacing = 16
+        self.spacing = 1
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addArrangedSubview(priorityView)
         self.addArrangedSubview(deadlineView)
-        
+        self.layer.cornerRadius = 16
+        self.layer.masksToBounds = true
+
         priorityView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         deadlineView.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
