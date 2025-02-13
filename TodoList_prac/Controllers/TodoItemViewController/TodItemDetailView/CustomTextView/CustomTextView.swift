@@ -2,18 +2,7 @@ import UIKit
 import Foundation
 
 class CustomTextView: UITextView, UITextViewDelegate {
-    
-    private let textView: UITextView = {
-        let textView = UITextView()
-        textView.backgroundColor = .white
-        textView.textColor = .black
-        textView.font = UIFont.systemFont(ofSize: 17)
-        textView.layer.cornerRadius = 8
-        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
-    }()
-    
+
     private let placeHolderLabel: UILabel = {
         let label = UILabel()
         label.text = "What to do?"
@@ -28,11 +17,11 @@ class CustomTextView: UITextView, UITextViewDelegate {
         self.backgroundColor = .white
         self.textColor = .black
         self.layer.cornerRadius = 16
+        self.font = .systemFont(ofSize: 17)
         self.layer.masksToBounds = true
         self.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         self.translatesAutoresizingMaskIntoConstraints = false
         self.delegate = self
-        
         addSubview(placeHolderLabel)
         
         NSLayoutConstraint.activate([
@@ -46,13 +35,13 @@ class CustomTextView: UITextView, UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        placeHolderLabel.isHidden = !textView.text.isEmpty
+        placeHolderLabel.isHidden = !self.text.isEmpty
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         placeHolderLabel.isHidden = true
     }
     func textViewDidEndEditing(_ textView: UITextView) {
-        placeHolderLabel.isHidden = !textView.text.isEmpty
+        placeHolderLabel.isHidden = !self.text.isEmpty
     }
 }
