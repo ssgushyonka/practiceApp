@@ -1,16 +1,8 @@
-//
-//  ViewController.swift
-//  TodoList_prac
-//
-//  Created by Элина Борисова on 12.02.2025.
-//
-
-import UIKit
 import Foundation
+import UIKit
 
-class ViewController: UIViewController{
-
-    //MARK: - UI Components
+final class ViewController: UIViewController {
+    // MARK: - UI Components
     private let todoCountLabel: UILabel = {
         let label = UILabel()
         label.text = "Done: 0"
@@ -33,8 +25,7 @@ class ViewController: UIViewController{
         tableView.tableHeaderView = UIView()
         return tableView
     }()
-    
-    private let addTaskButton: UIButton = {
+    private lazy var addTaskButton: UIButton = {
         let button = UIButton(type: .system)
         let config = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .default)
         let image = UIImage(systemName: "plus.circle.fill", withConfiguration: config)
@@ -47,7 +38,6 @@ class ViewController: UIViewController{
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorsExtensions.backGroundLight
@@ -55,14 +45,12 @@ class ViewController: UIViewController{
         tableView.dataSource = self
         setupUI()
         setupConstraints()
-        
     }
     func setupUI() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
         title = "My Todos"
-        
         view.addSubview(tableView)
         view.addSubview(addTaskButton)
         view.addSubview(todoCountLabel)
@@ -74,34 +62,33 @@ class ViewController: UIViewController{
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: addTaskButton.topAnchor, constant: -15),
-            
             addTaskButton.heightAnchor.constraint(equalToConstant: 50),
             addTaskButton.widthAnchor.constraint(equalToConstant: 50),
             addTaskButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addTaskButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            
             todoCountLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
-            todoCountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            todoCountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
         ])
     }
-    
-    @objc func addTaskButtonTapped() {
+    @objc
+    func addTaskButtonTapped() {
         print("add button tapped")
 
         let detailViewController = TodoDetailViewController()
         let navigation = UINavigationController(rootViewController: detailViewController)
-        
         present(navigation, animated: true)
     }
 }
 
-extension ViewController:  UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        3
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TodoItemTableViewCell.Identifier, for: indexPath) as? TodoItemTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: TodoItemTableViewCell.Identifier,
+            for: indexPath
+        ) as? TodoItemTableViewCell else {
             return UITableViewCell()
         }
         return cell

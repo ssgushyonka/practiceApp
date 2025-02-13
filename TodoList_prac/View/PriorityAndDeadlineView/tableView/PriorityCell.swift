@@ -1,42 +1,35 @@
 import UIKit
 
-class PriorityView: UIView {
-    
+class PriorityCell: UITableViewCell {
+    static let identifier = "PriorityCell"
     private let label = UILabel()
     private let segmentedControl = UISegmentedControl(items: ["↓", "no", "‼️"])
-
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
     }
-    
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     private func setupView() {
         label.text = "Priority"
+        label.textColor = .black
+        self.backgroundColor = .white
         segmentedControl.selectedSegmentIndex = 1
         segmentedControl.backgroundColor = ColorsExtensions.supportOverlay
         segmentedControl.selectedSegmentTintColor = .white
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
-        
         let stackView = UIStackView(arrangedSubviews: [label, segmentedControl])
         stackView.axis = .horizontal
         stackView.spacing = 16
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = .white
-        label.textColor = .black
-        addSubview(stackView)
-        
+        contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
-            
-            segmentedControl.widthAnchor.constraint(equalToConstant: 150)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ])
     }
 }

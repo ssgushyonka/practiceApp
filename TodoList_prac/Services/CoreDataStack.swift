@@ -1,21 +1,17 @@
+import CoreData
 import Foundation
 import UIKit
-import CoreData
 
 public final class CoreDataStack {
-    public let shared = CoreDataStack(); private init () {}
-    
-    lazy var persistentContainer: NSPersistentContainer = {
-        
-        let container = NSPersistentContainer(name: "TodoList_prac")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+    private let persistentContainer: NSPersistentContainer
+    public init(modelName: String) {
+        persistentContainer = NSPersistentContainer(name: modelName)
+        persistentContainer.loadPersistentStores { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
-        return container
-    }()
-    
+        }
+    }
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -27,17 +23,14 @@ public final class CoreDataStack {
             }
         }
     }
-    
     var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
+        persistentContainer.viewContext
     }
-    
     var backgroundContext: NSManagedObjectContext {
         let context = persistentContainer.newBackgroundContext()
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         return context
     }
-    
     func createItem(text: String, priority: String, deadline: Date?, isDone: Bool) {
         let context = backgroundContext
         context.perform {
@@ -49,7 +42,6 @@ public final class CoreDataStack {
             todoItem.isDone = isDone
             todoItem.createdDate = Date()
             todoItem.editedDate = nil
-            
             do {
                 try context.save()
             } catch {
@@ -57,11 +49,9 @@ public final class CoreDataStack {
             }
         }
     }
-    
     func fetchItems() -> [TodoItemCoreData] {
         let context = viewContext
         let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
-        
         do {
             return try context.fetch(fetchRequest)
         } catch {
@@ -69,28 +59,31 @@ public final class CoreDataStack {
             return []
         }
     }
-    
-    func updateItem(with id: String, newText: String? = nil, newPriority: String? = nil, newDeadline: Date? = nil, newIsDone: Bool? = nil) {
+    func updateItem(
+        with id: String,
+        newText: String? = nil,
+        newPriority: String? = nil,
+        newDeadline: Date? = nil,
+        newIsDone: Bool? = nil
+    ) {
         let context = backgroundContext
         context.perform {
             let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-            
             do {
                 if let todoItem = try context.fetch(fetchRequest).first {
-                    if let newText = newText {
+                    if let newText {
                         todoItem.text = newText
                     }
-                    if let newPriority = newPriority {
+                    if let newPriority {
                         todoItem.priority = newPriority
                     }
-                    if let newDeadline = newDeadline {
+                    if let newDeadline {
                         todoItem.deadline = newDeadline
                     }
-                    if let newIsDone = newIsDone {
+                    if let newIsDone {
                         todoItem.isDone = newIsDone
                     }
-                    
                     todoItem.editedDate = Date()
                     try context.save()
                 }
@@ -99,12 +92,11 @@ public final class CoreDataStack {
             }
         }
     }
-    func deleteItem(with id: String) {
+    func deleteItem(with _: String) {
         let context = backgroundContext
         context.perform {
             let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == $@")
-            
             do {
                 if let todoItem = try context.fetch(fetchRequest).first {
                     context.delete(todoItem)

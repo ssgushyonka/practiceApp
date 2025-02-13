@@ -5,13 +5,10 @@
 //  Created by Элина Борисова on 12.02.2025.
 //
 //
-
-import Foundation
 import CoreData
-
+import Foundation
 
 extension TodoItemCoreData {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TodoItemCoreData> {
         return NSFetchRequest<TodoItemCoreData>(entityName: "TodoItemCoreData")
     }
@@ -23,9 +20,7 @@ extension TodoItemCoreData {
     @NSManaged public var createdDate: Date?
     @NSManaged public var editedDate: Date?
     @NSManaged public var deadline: Date?
-
 }
 
-extension TodoItemCoreData : Identifiable {
-
+extension TodoItemCoreData: Identifiable {
 }

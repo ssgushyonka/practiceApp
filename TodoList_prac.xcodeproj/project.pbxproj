@@ -19,12 +19,12 @@
 		327639BE2D5CDEC3004F1EE6 /* TodoItemCoreData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327639BC2D5CDEC3004F1EE6 /* TodoItemCoreData+CoreDataClass.swift */; };
 		327639BF2D5CDEC3004F1EE6 /* TodoItemCoreData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327639BD2D5CDEC3004F1EE6 /* TodoItemCoreData+CoreDataProperties.swift */; };
 		327639C22D5CDF28004F1EE6 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327639C12D5CDF28004F1EE6 /* CoreDataStack.swift */; };
-		327639CA2D5D2DED004F1EE6 /* PriorityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327639C92D5D2DED004F1EE6 /* PriorityView.swift */; };
-		327639CC2D5D2F82004F1EE6 /* DeadlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327639CB2D5D2F82004F1EE6 /* DeadlineView.swift */; };
-		327639CF2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327639CE2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift */; };
 		327639D32D5D43BF004F1EE6 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 327639D22D5D43BF004F1EE6 /* .gitignore */; };
 		32F88C1D2D5D48C200611B03 /* CircleCheckmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F88C1C2D5D48AD00611B03 /* CircleCheckmark.swift */; };
 		32F88C1F2D5D5C7600611B03 /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F88C1E2D5D5C6C00611B03 /* CustomTextView.swift */; };
+		32F88C222D5DEF7500611B03 /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F88C212D5DEF6E00611B03 /* DatePickerView.swift */; };
+		32F88C252D5E095A00611B03 /* PriorityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F88C242D5E095300611B03 /* PriorityCell.swift */; };
+		32F88C272D5E096500611B03 /* DeadlineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F88C262D5E095E00611B03 /* DeadlineCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,12 +42,12 @@
 		327639BC2D5CDEC3004F1EE6 /* TodoItemCoreData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItemCoreData+CoreDataClass.swift"; sourceTree = "<group>"; };
 		327639BD2D5CDEC3004F1EE6 /* TodoItemCoreData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TodoItemCoreData+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		327639C12D5CDF28004F1EE6 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
-		327639C92D5D2DED004F1EE6 /* PriorityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityView.swift; sourceTree = "<group>"; };
-		327639CB2D5D2F82004F1EE6 /* DeadlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineView.swift; sourceTree = "<group>"; };
-		327639CE2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityAndDeadlineStack.swift; sourceTree = "<group>"; };
 		327639D22D5D43BF004F1EE6 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		32F88C1C2D5D48AD00611B03 /* CircleCheckmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleCheckmark.swift; sourceTree = "<group>"; };
 		32F88C1E2D5D5C6C00611B03 /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
+		32F88C212D5DEF6E00611B03 /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
+		32F88C242D5E095300611B03 /* PriorityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriorityCell.swift; sourceTree = "<group>"; };
+		32F88C262D5E095E00611B03 /* DeadlineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +108,10 @@
 		327639AD2D5CA6A6004F1EE6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				327639C32D5CFEF3004F1EE6 /* CustomTextView */,
+				327639C82D5D2DBD004F1EE6 /* PriorityAndDeadlineView */,
+				32F88C1B2D5D48A500611B03 /* Buttons */,
+				327639B32D5CAF48004F1EE6 /* TodoItemTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -133,8 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				32F88C202D5D645D00611B03 /* TodItemDetailView */,
-				32F88C1B2D5D48A500611B03 /* Buttons */,
-				327639B32D5CAF48004F1EE6 /* TodoItemTableViewCell.swift */,
 			);
 			path = TodoItemViewController;
 			sourceTree = "<group>";
@@ -166,9 +168,8 @@
 		327639C82D5D2DBD004F1EE6 /* PriorityAndDeadlineView */ = {
 			isa = PBXGroup;
 			children = (
-				327639C92D5D2DED004F1EE6 /* PriorityView.swift */,
-				327639CB2D5D2F82004F1EE6 /* DeadlineView.swift */,
-				327639CE2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift */,
+				32F88C232D5E094A00611B03 /* tableView */,
+				32F88C212D5DEF6E00611B03 /* DatePickerView.swift */,
 			);
 			path = PriorityAndDeadlineView;
 			sourceTree = "<group>";
@@ -184,11 +185,18 @@
 		32F88C202D5D645D00611B03 /* TodItemDetailView */ = {
 			isa = PBXGroup;
 			children = (
-				327639C32D5CFEF3004F1EE6 /* CustomTextView */,
-				327639C82D5D2DBD004F1EE6 /* PriorityAndDeadlineView */,
 				327639B82D5CCD11004F1EE6 /* TodoDetailViewController.swift */,
 			);
 			path = TodItemDetailView;
+			sourceTree = "<group>";
+		};
+		32F88C232D5E094A00611B03 /* tableView */ = {
+			isa = PBXGroup;
+			children = (
+				32F88C262D5E095E00611B03 /* DeadlineCell.swift */,
+				32F88C242D5E095300611B03 /* PriorityCell.swift */,
+			);
+			path = tableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +213,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				32F88C2D2D5E877700611B03 /* PBXTargetDependency */,
 			);
 			name = TodoList_prac;
 			productName = TodoList_prac;
@@ -235,6 +244,9 @@
 				Base,
 			);
 			mainGroup = 327639892D5CA624004F1EE6;
+			packageReferences = (
+				32F88C2A2D5E76E500611B03 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			productRefGroup = 327639932D5CA624004F1EE6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -262,18 +274,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				3276399A2D5CA624004F1EE6 /* ViewController.swift in Sources */,
+				32F88C252D5E095A00611B03 /* PriorityCell.swift in Sources */,
+				32F88C222D5DEF7500611B03 /* DatePickerView.swift in Sources */,
 				32F88C1F2D5D5C7600611B03 /* CustomTextView.swift in Sources */,
+				32F88C272D5E096500611B03 /* DeadlineCell.swift in Sources */,
 				327639B92D5CCD11004F1EE6 /* TodoDetailViewController.swift in Sources */,
 				327639C22D5CDF28004F1EE6 /* CoreDataStack.swift in Sources */,
 				32F88C1D2D5D48C200611B03 /* CircleCheckmark.swift in Sources */,
-				327639CA2D5D2DED004F1EE6 /* PriorityView.swift in Sources */,
 				327639A02D5CA624004F1EE6 /* TodoList_prac.xcdatamodeld in Sources */,
-				327639CF2D5D3186004F1EE6 /* PriorityAndDeadlineStack.swift in Sources */,
 				327639B42D5CAF48004F1EE6 /* TodoItemTableViewCell.swift in Sources */,
 				327639B72D5CC7E2004F1EE6 /* ColorsExtensions.swift in Sources */,
 				327639962D5CA624004F1EE6 /* AppDelegate.swift in Sources */,
 				327639982D5CA624004F1EE6 /* SceneDelegate.swift in Sources */,
-				327639CC2D5D2F82004F1EE6 /* DeadlineView.swift in Sources */,
 				327639BE2D5CDEC3004F1EE6 /* TodoItemCoreData+CoreDataClass.swift in Sources */,
 				327639BF2D5CDEC3004F1EE6 /* TodoItemCoreData+CoreDataProperties.swift in Sources */,
 				327639B02D5CA76B004F1EE6 /* TodoItemModel.swift in Sources */,
@@ -281,6 +293,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		32F88C2D2D5E877700611B03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 32F88C2C2D5E877700611B03 /* SwiftLintBuildToolPlugin */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		327639A72D5CA626004F1EE6 /* Debug */ = {
@@ -410,6 +429,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3AJKH6Z44A;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodoList_prac/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -437,6 +457,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3AJKH6Z44A;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TodoList_prac/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -478,6 +499,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		32F88C2A2D5E76E500611B03 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = exactVersion;
+				version = 0.58.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		32F88C2C2D5E877700611B03 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32F88C2A2D5E76E500611B03 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		3276399E2D5CA624004F1EE6 /* TodoList_prac.xcdatamodeld */ = {

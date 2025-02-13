@@ -1,8 +1,7 @@
-import UIKit
 import Foundation
+import UIKit
 
 class CustomTextView: UITextView, UITextViewDelegate {
-
     private let placeHolderLabel: UILabel = {
         let label = UILabel()
         label.text = "What to do?"
@@ -11,7 +10,6 @@ class CustomTextView: UITextView, UITextViewDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         self.backgroundColor = .white
@@ -23,25 +21,22 @@ class CustomTextView: UITextView, UITextViewDelegate {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.delegate = self
         addSubview(placeHolderLabel)
-        
         NSLayoutConstraint.activate([
             placeHolderLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
-            placeHolderLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12)
+            placeHolderLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
         ])
     }
-    
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func textViewDidChange(_ textView: UITextView) {
+    func textViewDidChange( _: UITextView) {
         placeHolderLabel.isHidden = !self.text.isEmpty
     }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    func textViewDidBeginEditing( _: UITextView) {
         placeHolderLabel.isHidden = true
     }
-    func textViewDidEndEditing(_ textView: UITextView) {
+    func textViewDidEndEditing( _: UITextView) {
         placeHolderLabel.isHidden = !self.text.isEmpty
     }
 }
