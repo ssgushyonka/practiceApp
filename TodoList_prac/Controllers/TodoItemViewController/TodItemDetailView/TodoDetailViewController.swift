@@ -13,6 +13,7 @@ final class TodoDetailViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
     private let priorityAndDeadlineTableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
@@ -28,7 +29,9 @@ final class TodoDetailViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+
     private var isDeadlineExpanded = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorsExtensions.backGroundLight
@@ -55,42 +58,50 @@ final class TodoDetailViewController: UIViewController {
         priorityAndDeadlineTableView.isHidden = false
         priorityAndDeadlineTableView.alpha = 1.0
     }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         print("Table view frame: \(priorityAndDeadlineTableView.frame)")
         print("Delete button frame: \(deleteButton.frame)")
     }
+
     @objc
     func cancelButtonTapped() {
         print("Cancel tapped")
         dismiss(animated: true)
     }
+
     @objc
     func saveButtonTapped() {
         print("Save tapped")
     }
+
     func setupUI() {
         view.addSubview(textView)
         view.addSubview(deleteButton)
         view.addSubview(priorityAndDeadlineTableView)
     }
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             textView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             textView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             textView.heightAnchor.constraint(equalToConstant: 100),
+
             priorityAndDeadlineTableView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 15),
             priorityAndDeadlineTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             priorityAndDeadlineTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             priorityAndDeadlineTableView.bottomAnchor.constraint(equalTo: deleteButton.topAnchor, constant: -15),
             priorityAndDeadlineTableView.heightAnchor.constraint(equalToConstant: isDeadlineExpanded ? 440 : 112),
+
             deleteButton.topAnchor.constraint(equalTo: priorityAndDeadlineTableView.bottomAnchor, constant: 15),
             deleteButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             deleteButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             deleteButton.heightAnchor.constraint(equalToConstant: 56),
         ])
     }
+
     private func updateTableViewHeight() {
         UIView.animate(withDuration: 0.3) {
             self.priorityAndDeadlineTableView.constraints.forEach { constraint in
@@ -109,6 +120,7 @@ extension TodoDetailViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView( _: UITableView, numberOfRowsInSection _: Int) -> Int {
         2
     }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = PriorityCell(style: .default, reuseIdentifier: PriorityCell.identifier)
@@ -132,6 +144,7 @@ extension TodoDetailViewController: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         return cell
     }
+
     func tableView( _: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 1 && isDeadlineExpanded {
             return 440

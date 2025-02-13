@@ -3,6 +3,7 @@ import UIKit
 class CircleCheckmark: UIButton {
     func setAppearance(isDone: Bool, highPriority: Bool) {
         translatesAutoresizingMaskIntoConstraints = false
+    
         let configuration = UIImage.SymbolConfiguration(pointSize: 24, weight: .light)
         let doneImage = UIImage(systemName: "checkmark.circle.fill", withConfiguration: configuration)
         let undoneImage = UIImage(systemName: "circle", withConfiguration: configuration)

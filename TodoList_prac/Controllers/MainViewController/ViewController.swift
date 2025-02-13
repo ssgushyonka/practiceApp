@@ -11,6 +11,7 @@ final class ViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = .clear
@@ -25,6 +26,7 @@ final class ViewController: UIViewController {
         tableView.tableHeaderView = UIView()
         return tableView
     }()
+
     private lazy var addTaskButton: UIButton = {
         let button = UIButton(type: .system)
         let config = UIImage.SymbolConfiguration(pointSize: 50, weight: .regular, scale: .default)
@@ -38,6 +40,7 @@ final class ViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorsExtensions.backGroundLight
@@ -46,6 +49,7 @@ final class ViewController: UIViewController {
         setupUI()
         setupConstraints()
     }
+
     func setupUI() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
@@ -56,16 +60,19 @@ final class ViewController: UIViewController {
         view.addSubview(todoCountLabel)
         view.bringSubviewToFront(addTaskButton)
     }
+
     func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: todoCountLabel.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: addTaskButton.topAnchor, constant: -15),
+
             addTaskButton.heightAnchor.constraint(equalToConstant: 50),
             addTaskButton.widthAnchor.constraint(equalToConstant: 50),
             addTaskButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addTaskButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+
             todoCountLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
             todoCountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
         ])

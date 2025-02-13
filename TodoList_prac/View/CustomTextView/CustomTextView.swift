@@ -10,8 +10,10 @@ class CustomTextView: UITextView, UITextViewDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
+
         self.backgroundColor = .white
         self.textColor = .black
         self.layer.cornerRadius = 16
@@ -21,21 +23,26 @@ class CustomTextView: UITextView, UITextViewDelegate {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.delegate = self
         addSubview(placeHolderLabel)
+
         NSLayoutConstraint.activate([
             placeHolderLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             placeHolderLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
         ])
     }
+
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     func textViewDidChange( _: UITextView) {
         placeHolderLabel.isHidden = !self.text.isEmpty
     }
+
     func textViewDidBeginEditing( _: UITextView) {
         placeHolderLabel.isHidden = true
     }
+
     func textViewDidEndEditing( _: UITextView) {
         placeHolderLabel.isHidden = !self.text.isEmpty
     }
