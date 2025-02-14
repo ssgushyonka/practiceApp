@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
 
-class CustomTextView: UITextView, UITextViewDelegate {
+final class CustomTextView: UITextView, UITextViewDelegate {
+    // MARK: - UI Components
     private let placeHolderLabel: UILabel = {
         let label = UILabel()
         label.text = "What to do?"
@@ -11,6 +12,7 @@ class CustomTextView: UITextView, UITextViewDelegate {
         return label
     }()
 
+    // MARK: - Overriden funcs
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
 
@@ -23,7 +25,6 @@ class CustomTextView: UITextView, UITextViewDelegate {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.delegate = self
         addSubview(placeHolderLabel)
-
         NSLayoutConstraint.activate([
             placeHolderLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             placeHolderLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
@@ -35,6 +36,7 @@ class CustomTextView: UITextView, UITextViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Delegate funcs
     func textViewDidChange( _: UITextView) {
         placeHolderLabel.isHidden = !self.text.isEmpty
     }

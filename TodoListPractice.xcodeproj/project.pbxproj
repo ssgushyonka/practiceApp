@@ -108,7 +108,7 @@
 		327639AD2D5CA6A6004F1EE6 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				327639C32D5CFEF3004F1EE6 /* CustomTextView */,
+				327639C32D5CFEF3004F1EE6 /* TaskLabelCustomTextView */,
 				327639C82D5D2DBD004F1EE6 /* PriorityAndDeadlineView */,
 				32F88C1B2D5D48A500611B03 /* Buttons */,
 				327639B32D5CAF48004F1EE6 /* TodoItemTableViewCell.swift */,
@@ -136,7 +136,7 @@
 		327639B22D5CA91A004F1EE6 /* TodoItemViewController */ = {
 			isa = PBXGroup;
 			children = (
-				32F88C202D5D645D00611B03 /* TodItemDetailView */,
+				32F88C202D5D645D00611B03 /* TodoItemDetailView */,
 			);
 			path = TodoItemViewController;
 			sourceTree = "<group>";
@@ -157,18 +157,18 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		327639C32D5CFEF3004F1EE6 /* CustomTextView */ = {
+		327639C32D5CFEF3004F1EE6 /* TaskLabelCustomTextView */ = {
 			isa = PBXGroup;
 			children = (
 				32F88C1E2D5D5C6C00611B03 /* CustomTextView.swift */,
 			);
-			path = CustomTextView;
+			path = TaskLabelCustomTextView;
 			sourceTree = "<group>";
 		};
 		327639C82D5D2DBD004F1EE6 /* PriorityAndDeadlineView */ = {
 			isa = PBXGroup;
 			children = (
-				32F88C232D5E094A00611B03 /* tableView */,
+				32F88C232D5E094A00611B03 /* PriorityAndDeadlineTableView */,
 				32F88C212D5DEF6E00611B03 /* DatePickerView.swift */,
 			);
 			path = PriorityAndDeadlineView;
@@ -182,21 +182,21 @@
 			path = Buttons;
 			sourceTree = "<group>";
 		};
-		32F88C202D5D645D00611B03 /* TodItemDetailView */ = {
+		32F88C202D5D645D00611B03 /* TodoItemDetailView */ = {
 			isa = PBXGroup;
 			children = (
 				327639B82D5CCD11004F1EE6 /* TodoDetailViewController.swift */,
 			);
-			path = TodItemDetailView;
+			path = TodoItemDetailView;
 			sourceTree = "<group>";
 		};
-		32F88C232D5E094A00611B03 /* tableView */ = {
+		32F88C232D5E094A00611B03 /* PriorityAndDeadlineTableView */ = {
 			isa = PBXGroup;
 			children = (
 				32F88C262D5E095E00611B03 /* DeadlineCell.swift */,
 				32F88C242D5E095300611B03 /* PriorityCell.swift */,
 			);
-			path = tableView;
+			path = PriorityAndDeadlineTableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

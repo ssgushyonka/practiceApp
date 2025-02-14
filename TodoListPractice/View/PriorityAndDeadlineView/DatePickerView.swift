@@ -1,9 +1,11 @@
 import UIKit
 
 class DatePickerView: UIView {
-    let datePicker = UIDatePicker()
+    // MARK: - Properties
+    private let datePicker = UIDatePicker()
     var onDateSelected: ((Date) -> Void)?
 
+    // MARK: - Overriden funcs
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -14,6 +16,7 @@ class DatePickerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Setup Views
     func setupView() {
         self.addSubview(datePicker)
         datePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +29,7 @@ class DatePickerView: UIView {
         datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
     }
 
+    // MARK: - Action funcs
     @objc
     func dateChanged() {
         onDateSelected?(datePicker.date)

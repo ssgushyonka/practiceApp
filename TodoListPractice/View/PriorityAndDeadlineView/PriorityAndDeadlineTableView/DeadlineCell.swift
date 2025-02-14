@@ -1,11 +1,14 @@
 import UIKit
 
 class DeadlineCell: UITableViewCell {
+    
+    // MARK: - Properties
     static let identifier = "DeadlineCell"
     private let label = UILabel()
     private let switchControl = UISwitch()
     var onSwitchChanged: ((Bool) -> Void)?
 
+    // MARK: - UI Components
     private let datePickerView: DatePickerView = {
         let view = DatePickerView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -22,6 +25,7 @@ class DeadlineCell: UITableViewCell {
         return label
     }()
 
+    // MARK: - Overriden funcs
     override init (style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = .white
@@ -68,6 +72,7 @@ class DeadlineCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Action funcs
     @objc
     private func switchChanged() {
         print("switch tapped")

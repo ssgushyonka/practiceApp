@@ -2,10 +2,13 @@ import Foundation
 import UIKit
 
 class TodoItemTableViewCell: UITableViewCell {
+    // MARK: - Properties
     private var item: TodoItemModel?
     private var onCheckMarkTapped: ((Bool) -> Void)?
     static let Identifier = "TodoItemTableViewCell"
     private let checkMarkButton = CircleCheckmark()
+
+    // MARK: - UI Components
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -22,27 +25,7 @@ class TodoItemTableViewCell: UITableViewCell {
         return label
     }()
 
-    @objc
-    private func checkMarkTapped() {
-        guard var item = item else { return }
-        item.isDone.toggle()
-        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priority == .high)
-
-        let attributedString = NSMutableAttributedString(string: item.text)
-        if item.isDone {
-            attributedString.addAttribute(
-                .strikethroughStyle,
-                value: NSUnderlineStyle.single.rawValue,
-                range: NSRange(location: 0, length: attributedString.length))
-        } else {
-            attributedString.removeAttribute(
-                .strikethroughStyle,
-                range: NSRange(location: 0, length: attributedString.length)
-            )
-        }
-        titleLabel.attributedText = attributedString
-        onCheckMarkTapped?(item.isDone)
-    }
+    // MARK: - Overriden funcs
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -56,6 +39,8 @@ class TodoItemTableViewCell: UITableViewCell {
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Setup UI
     func setupUI() {
         contentView.backgroundColor = .white
         contentView.addSubview(checkMarkButton)
@@ -103,5 +88,28 @@ class TodoItemTableViewCell: UITableViewCell {
             dateFormatter.timeStyle = .short
             deadlineLabel.text = "\(dateFormatter.string(from: deadline))"
         }
+    }
+
+    // MARK: - Action funcs
+    @objc
+    private func checkMarkTapped() {
+        guard var item = item else { return }
+        item.isDone.toggle()
+        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priority == .high)
+
+        let attributedString = NSMutableAttributedString(string: item.text)
+        if item.isDone {
+            attributedString.addAttribute(
+                .strikethroughStyle,
+                value: NSUnderlineStyle.single.rawValue,
+                range: NSRange(location: 0, length: attributedString.length))
+        } else {
+            attributedString.removeAttribute(
+                .strikethroughStyle,
+                range: NSRange(location: 0, length: attributedString.length)
+            )
+        }
+        titleLabel.attributedText = attributedString
+        onCheckMarkTapped?(item.isDone)
     }
 }

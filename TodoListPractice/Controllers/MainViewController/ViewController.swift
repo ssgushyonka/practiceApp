@@ -2,6 +2,7 @@ import Foundation
 import UIKit
 
 final class ViewController: UIViewController {
+    // MARK: - Properties
     private let coreDataManager: CoreDataManager
     private var todoItems: [TodoItemModel] = []
     let dateFormatter = ISO8601DateFormatter()
@@ -51,10 +52,11 @@ final class ViewController: UIViewController {
     }
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Overriden funcs
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorsExtensions.backGroundLight
@@ -69,29 +71,7 @@ final class ViewController: UIViewController {
         setupConstraints()
     }
 
-    private func loadTodosFromCoreData() {
-        coreDataManager.fetchItems { [weak self] items, error in
-            if let error = error {
-                print("Error fetching items: \(error)")
-            } else if let items = items {
-                self?.todoItems = items.map { item in
-                    TodoItemModel(
-                        id: item.id ?? UUID().uuidString,
-                        text: item.text ?? "",
-                        priority: Priority(rawValue: item.priority ?? "medium") ?? .medium,
-                        deadline: item.deadline,
-                        isDone: item.isDone,
-                        createdDate: item.createdDate,
-                        editedDate: item.editedDate
-                    )
-                }
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-            }
-        }
-    }
-
+    // MARK: - Setup UI
     func setupUI() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
@@ -119,6 +99,32 @@ final class ViewController: UIViewController {
             todoCountLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
         ])
     }
+
+    // MARK: - Private funcs
+    private func loadTodosFromCoreData() {
+        coreDataManager.fetchItems { [weak self] items, error in
+            if let error = error {
+                print("Error fetching items: \(error)")
+            } else if let items = items {
+                self?.todoItems = items.map { item in
+                    TodoItemModel(
+                        id: item.id ?? UUID().uuidString,
+                        text: item.text ?? "",
+                        priority: Priority(rawValue: item.priority ?? "medium") ?? .medium,
+                        deadline: item.deadline,
+                        isDone: item.isDone,
+                        createdDate: item.createdDate,
+                        editedDate: item.editedDate
+                    )
+                }
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            }
+        }
+    }
+
+    // MARK: - Action funcs
     @objc
     func addTaskButtonTapped() {
         print("add button tapped")
@@ -126,7 +132,6 @@ final class ViewController: UIViewController {
         let detailViewController = TodoDetailViewController()
         detailViewController.onSave = { [weak self] text in
             guard let self = self else { return }
-
             let newTask = TodoItemModel(
                 text: text,
                 priority: .medium,
@@ -147,6 +152,7 @@ final class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    // MARK: - Delegate funcs
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         todoItems.count
     }
@@ -171,7 +177,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let selectedCell = todoItems[indexPath.row]
         let detailViewController = TodoDetailViewController()
         //detailViewController.task = selectedCell
-        
+
         let navigation = UINavigationController(rootViewController: detailViewController)
         present(navigation, animated: true)
     }

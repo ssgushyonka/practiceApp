@@ -1,10 +1,12 @@
 import UIKit
 
 class PriorityCell: UITableViewCell {
+    // MARK: - Properties
     static let identifier = "PriorityCell"
     private let label = UILabel()
     private let segmentedControl = UISegmentedControl(items: ["↓", "no", "‼️"])
 
+    // MARK: - Overriden funcs
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -16,10 +18,10 @@ class PriorityCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - Setup UI
     private func setupView() {
         label.text = "Priority"
         label.textColor = .black
-
         self.backgroundColor = .white
 
         segmentedControl.selectedSegmentIndex = 1
@@ -31,7 +33,6 @@ class PriorityCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.spacing = 16
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
         contentView.addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),

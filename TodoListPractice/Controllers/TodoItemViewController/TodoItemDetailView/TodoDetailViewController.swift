@@ -2,9 +2,12 @@ import Foundation
 import UIKit
 
 final class TodoDetailViewController: UIViewController {
+    // MARK: - Properties
     var onSave: ((String) -> Void)?
     private let coreDataManager = CoreDataManager(modelName: "TodoListPractice")
     var task: TodoItemCoreData?
+    private var isDeadlineExpanded = false
+
     // MARK: - UI Components
     private let textView = CustomTextView()
     private let deleteButton: UIButton = {
@@ -33,8 +36,7 @@ final class TodoDetailViewController: UIViewController {
         return tableView
     }()
 
-    private var isDeadlineExpanded = false
-
+    // MARK: - Overriden funcs
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorsExtensions.backGroundLight
@@ -65,39 +67,7 @@ final class TodoDetailViewController: UIViewController {
         priorityAndDeadlineTableView.alpha = 1.0
     }
 
-    @objc
-    func cancelButtonTapped() {
-        print("Cancel tapped")
-        dismiss(animated: true)
-    }
-
-    @objc
-    func saveButtonTapped() {
-        print("Save tapped")
-        guard let text = textView.text, !text.isEmpty else {
-            print("Task text is empty")
-            return
-        }
-        let priority = "Normal"
-        let deadline: Date? = nil
-        coreDataManager.createItem(
-            text: text,
-            priority: priority,
-            deadline: deadline,
-            isDone: false
-        ) { error in
-            DispatchQueue.main.async {
-                if error != nil {
-                    print("Error saving item")
-                } else {
-                    print("Item saved")
-                    self.onSave?(text)
-                    self.dismiss(animated: true)
-                }
-            }
-        }
-    }
-
+    // MARK: - Setup UI
     func setupUI() {
         view.addSubview(textView)
         view.addSubview(deleteButton)
@@ -136,9 +106,45 @@ final class TodoDetailViewController: UIViewController {
             }
         }
     }
+
+    // MARK: - Action funcs
+    @objc
+    func cancelButtonTapped() {
+        print("Cancel tapped")
+        dismiss(animated: true)
+    }
+
+    @objc
+    func saveButtonTapped() {
+        print("Save tapped")
+        guard let text = textView.text, !text.isEmpty else {
+            print("Task text is empty")
+            return
+        }
+        let priority = "Normal"
+        let deadline: Date? = nil
+        coreDataManager.createItem(
+            text: text,
+            priority: priority,
+            deadline: deadline,
+            isDone: false
+        ) { error in
+            DispatchQueue.main.async {
+                if error != nil {
+                    print("Error saving item")
+                } else {
+                    print("Item saved")
+                    self.onSave?(text)
+                    self.dismiss(animated: true)
+                }
+            }
+        }
+    }
 }
 
 extension TodoDetailViewController: UITableViewDataSource, UITableViewDelegate {
+
+    // MARK: - Delegate funcs
     func tableView( _: UITableView, numberOfRowsInSection _: Int) -> Int {
         2
     }
