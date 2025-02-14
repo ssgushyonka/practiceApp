@@ -7,8 +7,8 @@ included:
 excluded:
   - Tests/BuiltInRulesTests/Resources
   - Tests/FrameworkTests/Resources
-  - TodoList_prac/AppDelegate.swift
-  - TodoList_prac/SceneDelegate.swift
+  - TodoListPractice/AppDelegate.swift
+  - TodoListPractice/SceneDelegate.swift
 
 # Enabled/disabled rules
 analyzer_rules:

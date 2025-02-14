@@ -11,10 +11,10 @@ struct TodoItemModel {
     let text: String
     let priority: Priority
     let deadline: Date?
-    let isDone: Bool
+    var isDone: Bool
     let createdDate: Date?
     let editedDate: Date?
-    
+
     init(id: String = UUID().uuidString, text: String, priority: Priority, deadline: Date?, isDone: Bool, createdDate: Date?, editedDate: Date?) {
         self.id = id
         self.text = text

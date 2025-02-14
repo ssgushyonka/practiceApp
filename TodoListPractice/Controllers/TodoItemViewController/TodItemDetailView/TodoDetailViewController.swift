@@ -2,6 +2,9 @@ import Foundation
 import UIKit
 
 final class TodoDetailViewController: UIViewController {
+    var onSave: ((String) -> Void)?
+    private let coreDataManager = CoreDataManager(modelName: "TodoListPractice")
+    var task: TodoItemCoreData?
     // MARK: - UI Components
     private let textView = CustomTextView()
     private let deleteButton: UIButton = {
@@ -35,6 +38,9 @@ final class TodoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorsExtensions.backGroundLight
+        if let task = task {
+            textView.text = task.text
+        }
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             title: "Cancel",
@@ -59,12 +65,6 @@ final class TodoDetailViewController: UIViewController {
         priorityAndDeadlineTableView.alpha = 1.0
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        print("Table view frame: \(priorityAndDeadlineTableView.frame)")
-        print("Delete button frame: \(deleteButton.frame)")
-    }
-
     @objc
     func cancelButtonTapped() {
         print("Cancel tapped")
@@ -74,6 +74,28 @@ final class TodoDetailViewController: UIViewController {
     @objc
     func saveButtonTapped() {
         print("Save tapped")
+        guard let text = textView.text, !text.isEmpty else {
+            print("Task text is empty")
+            return
+        }
+        let priority = "Normal"
+        let deadline: Date? = nil
+        coreDataManager.createItem(
+            text: text,
+            priority: priority,
+            deadline: deadline,
+            isDone: false
+        ) { error in
+            DispatchQueue.main.async {
+                if error != nil {
+                    print("Error saving item")
+                } else {
+                    print("Item saved")
+                    self.onSave?(text)
+                    self.dismiss(animated: true)
+                }
+            }
+        }
     }
 
     func setupUI() {

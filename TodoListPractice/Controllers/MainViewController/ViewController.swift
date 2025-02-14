@@ -2,6 +2,10 @@ import Foundation
 import UIKit
 
 final class ViewController: UIViewController {
+    private let coreDataManager: CoreDataManager
+    private var todoItems: [TodoItemModel] = []
+    let dateFormatter = ISO8601DateFormatter()
+
     // MARK: - UI Components
     private let todoCountLabel: UILabel = {
         let label = UILabel()
@@ -41,13 +45,51 @@ final class ViewController: UIViewController {
         return button
     }()
 
+    init(coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorsExtensions.backGroundLight
         tableView.delegate = self
         tableView.dataSource = self
+
+        loadTodosFromCoreData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
         setupUI()
         setupConstraints()
+    }
+
+    private func loadTodosFromCoreData() {
+        coreDataManager.fetchItems { [weak self] items, error in
+            if let error = error {
+                print("Error fetching items: \(error)")
+            } else if let items = items {
+                self?.todoItems = items.map { item in
+                    TodoItemModel(
+                        id: item.id ?? UUID().uuidString,
+                        text: item.text ?? "",
+                        priority: Priority(rawValue: item.priority ?? "medium") ?? .medium,
+                        deadline: item.deadline,
+                        isDone: item.isDone,
+                        createdDate: item.createdDate,
+                        editedDate: item.editedDate
+                    )
+                }
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            }
+        }
     }
 
     func setupUI() {
@@ -82,6 +124,23 @@ final class ViewController: UIViewController {
         print("add button tapped")
 
         let detailViewController = TodoDetailViewController()
+        detailViewController.onSave = { [weak self] text in
+            guard let self = self else { return }
+
+            let newTask = TodoItemModel(
+                text: text,
+                priority: .medium,
+                deadline: nil,
+                isDone: false,
+                createdDate: Date(),
+                editedDate: nil
+            )
+
+            self.todoItems.append(newTask)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
         let navigation = UINavigationController(rootViewController: detailViewController)
         present(navigation, animated: true)
     }
@@ -89,7 +148,7 @@ final class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        3
+        todoItems.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -98,6 +157,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? TodoItemTableViewCell else {
             return UITableViewCell()
         }
+        let todoitem = todoItems[indexPath.row]
+        cell.configure(with: todoitem) { [weak self] isDone in
+            self?.todoItems[indexPath.row].isDone = isDone
+            DispatchQueue.main.async {
+                tableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        }
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let selectedCell = todoItems[indexPath.row]
+        let detailViewController = TodoDetailViewController()
+        //detailViewController.task = selectedCell
+        
+        let navigation = UINavigationController(rootViewController: detailViewController)
+        present(navigation, animated: true)
     }
 }

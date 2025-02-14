@@ -38,7 +38,6 @@ class DeadlineCell: UITableViewCell {
         contentView.addSubview(selectedDateLabel)
 
         NSLayoutConstraint.activate([
-
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),

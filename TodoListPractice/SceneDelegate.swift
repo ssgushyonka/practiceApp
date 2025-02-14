@@ -10,14 +10,14 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    let coreDataStack = CoreDataStack(modelName: "TodoList_prac")
+    let coreDataManager = CoreDataManager(modelName: "TodoListPractice")
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        let viewController = ViewController()
+        let viewController = ViewController(coreDataManager: coreDataManager)
         let navigationController = UINavigationController(rootViewController: viewController)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

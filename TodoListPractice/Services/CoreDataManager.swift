@@ -1,9 +1,9 @@
 import CoreData
 import Foundation
-import UIKit
 
-public final class CoreDataStack {
+public final class CoreDataManager {
     private let persistentContainer: NSPersistentContainer
+
     public init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
         persistentContainer.loadPersistentStores { (_, error) in
@@ -12,59 +12,87 @@ public final class CoreDataStack {
             }
         }
     }
-    func saveContext () {
+
+    func saveContext(completion: @escaping (Error?) -> Void) {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()
+                completion(nil)
             } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                completion(error)
             }
+        } else {
+            completion(nil)
         }
     }
+
     var viewContext: NSManagedObjectContext {
         persistentContainer.viewContext
     }
+
     var backgroundContext: NSManagedObjectContext {
         let context = persistentContainer.newBackgroundContext()
         context.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
         return context
     }
-    func createItem(text: String, priority: String, deadline: Date?, isDone: Bool) {
+
+    func createItem(
+        text: String,
+        priority: String,
+        deadline: Date?,
+        isDone: Bool,
+        completion: @escaping (Error?) -> Void
+    ) {
         let context = backgroundContext
         context.perform {
-            let todoItem = TodoItemCoreData(context: context)
-            todoItem.id = UUID().uuidString
-            todoItem.text = text
-            todoItem.priority = priority
-            todoItem.deadline = deadline
-            todoItem.isDone = isDone
-            todoItem.createdDate = Date()
-            todoItem.editedDate = nil
+            let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "text == %@", text)
             do {
-                try context.save()
+                let existingItems = try context.fetch(fetchRequest)
+                if existingItems.isEmpty {
+                    let todoItem = TodoItemCoreData(context: context)
+                    todoItem.id = UUID().uuidString
+                    todoItem.text = text
+                    todoItem.priority = priority
+                    todoItem.deadline = deadline
+                    todoItem.isDone = isDone
+                    todoItem.createdDate = Date()
+                    todoItem.editedDate = nil
+                    try context.save()
+                    completion(nil)
+                } else {
+                    completion(NSError(
+                        domain: "CoreDataManager",
+                        code: -1,
+                        userInfo: [NSLocalizedDescriptionKey: "Item already exists"])
+                    )
+                }
             } catch {
-                print("Ошибка при сохранении: \(error)")
+                completion(error)
             }
         }
     }
-    func fetchItems() -> [TodoItemCoreData] {
-        let context = viewContext
+
+    func fetchItems(completion: @escaping ([TodoItemCoreData]?, Error?) -> Void){
+        let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
+
         do {
-            return try context.fetch(fetchRequest)
+            let items = try context.fetch(fetchRequest)
+            completion(items, nil)
         } catch {
-            print("Ошибка при загрузке TodoItem: \(error)")
-            return []
+            completion(nil, error)
         }
     }
+
     func updateItem(
         with id: String,
         newText: String? = nil,
         newPriority: String? = nil,
         newDeadline: Date? = nil,
-        newIsDone: Bool? = nil
+        newIsDone: Bool? = nil,
+        completion: @escaping (Error?) -> Void
     ) {
         let context = backgroundContext
         context.perform {
@@ -86,24 +114,39 @@ public final class CoreDataStack {
                     }
                     todoItem.editedDate = Date()
                     try context.save()
+                    completion(nil)
+                } else {
+                    completion(NSError(
+                        domain: "CoreDataManager",
+                        code: -1,
+                        userInfo: [NSLocalizedDescriptionKey: "Item not found"])
+                    )
                 }
             } catch {
-                print("Ошибка при изменении TodoItem: \(error)")
+                completion(error)
             }
         }
     }
-    func deleteItem(with _: String) {
+
+    func deleteItem(with id: String, completion: @escaping (Error?) -> Void) {
         let context = backgroundContext
         context.perform {
             let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "id == $@")
+            fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             do {
                 if let todoItem = try context.fetch(fetchRequest).first {
                     context.delete(todoItem)
                     try context.save()
+                    completion(nil)
+                } else {
+                    completion(NSError(
+                        domain: "CoreDataManager",
+                        code: -1,
+                        userInfo: [NSLocalizedDescriptionKey: "Item not found"])
+                    )
                 }
             } catch {
-                print("Ошибка удаления TodoItem: \(error)")
+                completion(error)
             }
         }
     }
