@@ -189,7 +189,7 @@ final class TodoDetailViewController: UIViewController {
     }
 }
 
-// MARK: - TodoDetailViewController extension
+// MARK: - TodoDetailViewController extension, priority and deadline tableView delegates
 extension TodoDetailViewController: UITableViewDataSource, UITableViewDelegate {
     // MARK: - Delegate funcs
     func tableView( _: UITableView, numberOfRowsInSection _: Int) -> Int {
