@@ -24,4 +24,21 @@ extension TodoItemCoreData {
 
 extension TodoItemCoreData: Identifiable {
 }
+extension TodoItemCoreData {
+    var priorityEnum: Priority {
+        get {
+            return Priority(rawValue: priority ?? "") ?? .medium
+        }
+        set {
+            priority = newValue.rawValue
+        }
+    }
+    var formattedDeadline: String? {
+        guard let deadline = deadline else { return nil }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        return dateFormatter.string(from: deadline)
+    }
+}
 // swiftlint:enable all

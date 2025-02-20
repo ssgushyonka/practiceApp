@@ -3,7 +3,7 @@ import UIKit
 
 class TodoItemTableViewCell: UITableViewCell {
     // MARK: - Properties
-    private var item: TodoItemModel?
+    private var item: TodoItemCoreData?
     private var onCheckMarkTapped: ((Bool) -> Void)?
     static let Identifier = "TodoItemTableViewCell"
     private let checkMarkButton = CircleCheckmark()
@@ -62,16 +62,17 @@ class TodoItemTableViewCell: UITableViewCell {
         ])
     }
 
-    func configure(with item: TodoItemModel, onCheckMarkTapped: @escaping (Bool) -> Void) {
+    func configure(with item: TodoItemCoreData, onCheckMarkTapped: @escaping (Bool) -> Void) {
         self.item = item
         self.onCheckMarkTapped = onCheckMarkTapped
 
-        let attributedString = NSMutableAttributedString(string: item.text)
+        let attributedString = NSMutableAttributedString(string: item.text ?? "")
         if item.isDone {
-            attributedString.addAttribute(
-                .strikethroughStyle,
-                value: NSUnderlineStyle.single.rawValue,
-                range: NSRange(location: 0, length: attributedString.length))
+            let attributes: [NSAttributedString.Key: Any] = [
+                .strikethroughStyle: NSUnderlineStyle.single.rawValue,
+                .foregroundColor: ColorsExtensions.lightTertiary,
+            ]
+            attributedString.addAttributes(attributes, range: NSRange(location: 0, length: attributedString.length))
         } else {
             attributedString.removeAttribute(
                 .strikethroughStyle,
@@ -80,24 +81,18 @@ class TodoItemTableViewCell: UITableViewCell {
         }
         titleLabel.attributedText = attributedString
         titleLabel.font = .systemFont(ofSize: 16)
-        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priority == .high)
-
-        if let deadline = item.deadline {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .short
-            dateFormatter.timeStyle = .short
-            deadlineLabel.text = "\(dateFormatter.string(from: deadline))"
-        }
+        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priorityEnum == .high)
+        deadlineLabel.text = item.formattedDeadline
     }
 
     // MARK: - Action funcs
     @objc
     private func checkMarkTapped() {
-        guard var item else { return }
+        guard let item else { return }
         item.isDone.toggle()
-        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priority == .high)
+        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priorityEnum == .high)
 
-        let attributedString = NSMutableAttributedString(string: item.text)
+        let attributedString = NSMutableAttributedString(string: item.text ?? "")
         if item.isDone {
             attributedString.addAttribute(
                 .strikethroughStyle,
@@ -106,9 +101,9 @@ class TodoItemTableViewCell: UITableViewCell {
         } else {
             attributedString.removeAttribute(
                 .strikethroughStyle,
-                range: NSRange(location: 0, length: attributedString.length)
-            )
+                range: NSRange(location: 0, length: attributedString.length))
         }
+
         titleLabel.attributedText = attributedString
         onCheckMarkTapped?(item.isDone)
     }

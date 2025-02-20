@@ -3,19 +3,21 @@ import UIKit
 
 final class TodoDetailViewController: UIViewController {
     // MARK: - Properties
-    var onSave: ((String) -> Void)?
+    var onSave: ((String, Error?) -> Void)?
+    var onDelete: ((String) -> Void)?
     private let coreDataManager = CoreDataManager(modelName: "TodoListPractice")
-    var task: TodoItemModel?
+    var task: TodoItemCoreData?
     private var isDeadlineExpanded = false
 
     // MARK: - UI Components
     private let textView = CustomTextView()
-    private let deleteButton: UIButton = {
+    private lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle("Delete", for: .normal)
         button.layer.cornerRadius = 16
         button.backgroundColor = .white
         button.setTitleColor(.red, for: .normal)
+        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -110,19 +112,20 @@ final class TodoDetailViewController: UIViewController {
 
     // MARK: - Action funcs
     @objc
-    func cancelButtonTapped() {
+    private func cancelButtonTapped() {
         print("Cancel tapped")
         dismiss(animated: true)
     }
 
     @objc
-    func saveButtonTapped() {
+    private func saveButtonTapped() {
         print("Save tapped")
         guard let text = textView.text, !text.isEmpty else {
             print("Task text is empty")
             return
         }
-        let priority = "Normal"
+
+        let priority = Priority(rawValue: "Normal") ?? .medium
         let deadline: Date? = nil
         let taskId = self.task?.id
         if let taskId { // Если задача существует, обновляем
@@ -136,31 +139,53 @@ final class TodoDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let error {
                         print("Error updating item: \(error)")
+                        self.onSave?(text, error)
                     } else {
                         print("Item updated")
-                        self.onSave?(text)
+                        self.onSave?(text, nil)
                         self.dismiss(animated: true)
                     }
                 }
             }
-        } else {
-            coreDataManager.createItem( // Иначе добавляем новую задачу
+        } else { // Иначе добавляем новую задачу
+            coreDataManager.createItem(
                 text: text,
                 priority: priority,
                 deadline: deadline,
                 isDone: false
             ) { error in
                 DispatchQueue.main.async {
-                    if error != nil {
-                        print("Error saving item")
+                    if let error {
+                        print("Error saving item: \(error)")
+                        self.onSave?(text, error)
                     } else {
                         print("Item saved")
-                        self.onSave?(text)
+                        self.onSave?(text, nil)
                         self.dismiss(animated: true)
                     }
                 }
             }
         }
+    }
+
+    @objc
+    private func deleteButtonTapped() {
+        print("Delete button tapped")
+        guard let taskId = task?.id else {
+            print("Task id is nill")
+            return
+        }
+        coreDataManager.deleteItem(with: taskId, completion: { [weak self] error in
+            DispatchQueue.main.async {
+                if let error {
+                    print("Error deleting item \(error.localizedDescription)")
+                } else {
+                    print("Item deleted succesfully")
+                    self?.onDelete?(taskId)
+                    self?.dismiss(animated: true)
+                }
+            }
+        })
     }
 }
 

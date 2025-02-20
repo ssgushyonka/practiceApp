@@ -6,7 +6,7 @@ public final class CoreDataManager {
 
     public init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
-        persistentContainer.loadPersistentStores { (_, error) in
+        persistentContainer.loadPersistentStores { _, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
@@ -39,7 +39,7 @@ public final class CoreDataManager {
 
     func createItem(
         text: String,
-        priority: String,
+        priority: Priority,
         deadline: Date?,
         isDone: Bool,
         completion: @escaping (Error?) -> Void
@@ -54,12 +54,13 @@ public final class CoreDataManager {
                     let todoItem = TodoItemCoreData(context: context)
                     todoItem.id = UUID().uuidString
                     todoItem.text = text
-                    todoItem.priority = priority
+                    todoItem.priorityEnum = priority
                     todoItem.deadline = deadline
                     todoItem.isDone = isDone
                     todoItem.createdDate = Date()
                     todoItem.editedDate = nil
                     try context.save()
+                    print("Item saved with id: \(todoItem.id ?? "nil")")
                     completion(nil)
                 } else {
                     completion(NSError(
@@ -74,7 +75,7 @@ public final class CoreDataManager {
         }
     }
 
-    func fetchItems(completion: @escaping ([TodoItemCoreData]?, Error?) -> Void){
+    func fetchItems(completion: @escaping ([TodoItemCoreData]?, Error?) -> Void) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
 
@@ -86,23 +87,10 @@ public final class CoreDataManager {
         }
     }
 
-    func fetchItem(by id: String) -> TodoItemCoreData? {
-        let context = persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
-        
-        do {
-            let results = try context.fetch(fetchRequest)
-            return results.first
-        } catch {
-            print("Error fetching item by ID: \(error)")
-            return nil
-        }
-    }
     func updateItem(
         with id: String,
         newText: String? = nil,
-        newPriority: String? = nil,
+        newPriority: Priority? = nil,
         newDeadline: Date? = nil,
         newIsDone: Bool? = nil,
         completion: @escaping (Error?) -> Void
@@ -112,21 +100,24 @@ public final class CoreDataManager {
             let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             do {
-                if let todoItem = try context.fetch(fetchRequest).first {
-                    if let newText = newText {
+                let results = try context.fetch(fetchRequest)
+                print("Found \(results.count) items with id: \(id)")
+                if let todoItem = results.first {
+                    if let newText {
                         todoItem.text = newText
                     }
-                    if let newPriority = newPriority {
-                        todoItem.priority = newPriority
+                    if let newPriority {
+                        todoItem.priorityEnum = newPriority
                     }
-                    if let newDeadline = newDeadline {
+                    if let newDeadline {
                         todoItem.deadline = newDeadline
                     }
-                    if let newIsDone = newIsDone {
+                    if let newIsDone {
                         todoItem.isDone = newIsDone
                     }
                     todoItem.editedDate = Date()
                     try context.save()
+                    print("Item updated with id: \(id)")
                     completion(nil)
                 } else {
                     completion(NSError(

@@ -4,7 +4,7 @@ import UIKit
 final class ViewController: UIViewController {
     // MARK: - Properties
     private let coreDataManager: CoreDataManager
-    private var todoItems: [TodoItemModel] = []
+    private var todoItems: [TodoItemCoreData] = []
     let dateFormatter = ISO8601DateFormatter()
 
     // MARK: - UI Components
@@ -103,25 +103,13 @@ final class ViewController: UIViewController {
     // MARK: - Private funcs
     private func loadTodosFromCoreData() {
         coreDataManager.fetchItems { [weak self] items, error in
-            guard let self = self else { return }
+            guard let self else { return }
             if let error {
                 print("Error fetching items: \(error)")
                 return
             }
-
             guard let items else { return }
-            self.todoItems = items.compactMap { item in
-                guard let id = item.id, let text = item.text else { return nil }
-                return TodoItemModel(
-                    id: id,
-                    text: text,
-                    priority: Priority(rawValue: item.priority ?? "medium") ?? .medium,
-                    deadline: item.deadline,
-                    isDone: item.isDone,
-                    createdDate: item.createdDate,
-                    editedDate: item.editedDate
-                )
-            }
+            todoItems = items
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
@@ -133,20 +121,16 @@ final class ViewController: UIViewController {
         print("add button tapped")
 
         let detailViewController = TodoDetailViewController()
-        detailViewController.onSave = { [weak self] text in
+        detailViewController.onSave = { [weak self] _, error in
             guard let self else { return }
-            let newTask = TodoItemModel(
-                text: text,
-                priority: .medium,
-                deadline: nil,
-                isDone: false,
-                createdDate: Date(),
-                editedDate: nil
-            )
-
-            self.todoItems.append(newTask)
             DispatchQueue.main.async {
-                self.tableView.reloadData()
+                if let error {
+                    print("Error saving item: \(error.localizedDescription)")
+                } else {
+                    print("Item saved successfully")
+                    self.loadTodosFromCoreData()
+                    self.tableView.reloadData()
+                }
             }
         }
         let navigation = UINavigationController(rootViewController: detailViewController)
@@ -177,26 +161,35 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        var selectedTask = todoItems[indexPath.row]
+
+        let selectedTask = todoItems[indexPath.row]
         let detailViewController = TodoDetailViewController()
         detailViewController.task = selectedTask
-        detailViewController.onSave = { [weak self] updatedText in
-            let taskId = selectedTask.id
-            self?.coreDataManager.updateItem(
+
+        detailViewController.onSave = { [weak self] updatedText, _ in
+            guard let self else { return }
+            let taskId = selectedTask.id ?? ""
+            print("Updating item with id: \(taskId)")
+            self.coreDataManager.updateItem(
                 with: taskId,
                 newText: updatedText,
                 completion: { error in
                     if let error {
                         print("Error updating task: \(error)")
                     } else {
-                        selectedTask.text = updatedText
-                        self?.todoItems[indexPath.row] = selectedTask
                         DispatchQueue.main.async {
+                            selectedTask.text = updatedText
                             tableView.reloadRows(at: [indexPath], with: .automatic)
                         }
                     }
                 }
             )
+        }
+        detailViewController.onDelete = { [weak self] taskid in
+            self?.todoItems.removeAll { $0.id == taskid }
+            DispatchQueue.main.async {
+                tableView.reloadData()
+            }
         }
         let navigation = UINavigationController(rootViewController: detailViewController)
         present(navigation, animated: true)
