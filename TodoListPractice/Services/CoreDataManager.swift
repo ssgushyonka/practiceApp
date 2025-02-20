@@ -86,6 +86,19 @@ public final class CoreDataManager {
         }
     }
 
+    func fetchItem(by id: String) -> TodoItemCoreData? {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<TodoItemCoreData> = TodoItemCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id)
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            return results.first
+        } catch {
+            print("Error fetching item by ID: \(error)")
+            return nil
+        }
+    }
     func updateItem(
         with id: String,
         newText: String? = nil,
@@ -100,16 +113,16 @@ public final class CoreDataManager {
             fetchRequest.predicate = NSPredicate(format: "id == %@", id)
             do {
                 if let todoItem = try context.fetch(fetchRequest).first {
-                    if let newText {
+                    if let newText = newText {
                         todoItem.text = newText
                     }
-                    if let newPriority {
+                    if let newPriority = newPriority {
                         todoItem.priority = newPriority
                     }
-                    if let newDeadline {
+                    if let newDeadline = newDeadline {
                         todoItem.deadline = newDeadline
                     }
-                    if let newIsDone {
+                    if let newIsDone = newIsDone {
                         todoItem.isDone = newIsDone
                     }
                     todoItem.editedDate = Date()

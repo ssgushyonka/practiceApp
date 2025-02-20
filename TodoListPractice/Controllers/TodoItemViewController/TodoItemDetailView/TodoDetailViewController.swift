@@ -5,7 +5,7 @@ final class TodoDetailViewController: UIViewController {
     // MARK: - Properties
     var onSave: ((String) -> Void)?
     private let coreDataManager = CoreDataManager(modelName: "TodoListPractice")
-    var task: TodoItemCoreData?
+    var task: TodoItemModel?
     private var isDeadlineExpanded = false
 
     // MARK: - UI Components
@@ -40,7 +40,7 @@ final class TodoDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = ColorsExtensions.backGroundLight
-        if let task = task {
+        if let task {
             textView.text = task.text
         }
         navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
@@ -94,7 +94,8 @@ final class TodoDetailViewController: UIViewController {
         ])
     }
 
-    private func updateTableViewHeight() {
+    // MARK: - Private funcs
+    private func updateTableViewHeight() { // Функция для динамической высоты ячейки таблицы
         UIView.animate(withDuration: 0.3) {
             self.priorityAndDeadlineTableView.constraints.forEach { constraint in
                 if constraint.firstAttribute == .height {
@@ -123,27 +124,48 @@ final class TodoDetailViewController: UIViewController {
         }
         let priority = "Normal"
         let deadline: Date? = nil
-        coreDataManager.createItem(
-            text: text,
-            priority: priority,
-            deadline: deadline,
-            isDone: false
-        ) { error in
-            DispatchQueue.main.async {
-                if error != nil {
-                    print("Error saving item")
-                } else {
-                    print("Item saved")
-                    self.onSave?(text)
-                    self.dismiss(animated: true)
+        let taskId = self.task?.id
+        if let taskId { // Если задача существует, обновляем
+            coreDataManager.updateItem(
+                with: taskId,
+                newText: text,
+                newPriority: priority,
+                newDeadline: deadline,
+                newIsDone: false
+            ) { error in
+                DispatchQueue.main.async {
+                    if let error {
+                        print("Error updating item: \(error)")
+                    } else {
+                        print("Item updated")
+                        self.onSave?(text)
+                        self.dismiss(animated: true)
+                    }
+                }
+            }
+        } else {
+            coreDataManager.createItem( // Иначе добавляем новую задачу
+                text: text,
+                priority: priority,
+                deadline: deadline,
+                isDone: false
+            ) { error in
+                DispatchQueue.main.async {
+                    if error != nil {
+                        print("Error saving item")
+                    } else {
+                        print("Item saved")
+                        self.onSave?(text)
+                        self.dismiss(animated: true)
+                    }
                 }
             }
         }
     }
 }
 
+// MARK: - TodoDetailViewController extension
 extension TodoDetailViewController: UITableViewDataSource, UITableViewDelegate {
-
     // MARK: - Delegate funcs
     func tableView( _: UITableView, numberOfRowsInSection _: Int) -> Int {
         2

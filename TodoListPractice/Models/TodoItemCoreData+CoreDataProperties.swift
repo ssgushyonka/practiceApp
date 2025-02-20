@@ -4,7 +4,7 @@
 //
 //  Created by Элина Борисова on 12.02.2025.
 //
-//
+// swiftlint:disable all
 import CoreData
 import Foundation
 
@@ -24,3 +24,4 @@ extension TodoItemCoreData {
 
 extension TodoItemCoreData: Identifiable {
 }
+// swiftlint:enable all

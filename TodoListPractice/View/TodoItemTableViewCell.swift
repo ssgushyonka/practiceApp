@@ -93,7 +93,7 @@ class TodoItemTableViewCell: UITableViewCell {
     // MARK: - Action funcs
     @objc
     private func checkMarkTapped() {
-        guard var item = item else { return }
+        guard var item else { return }
         item.isDone.toggle()
         checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priority == .high)
 

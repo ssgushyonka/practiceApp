@@ -1,7 +1,6 @@
 import UIKit
 
 class DeadlineCell: UITableViewCell {
-    
     // MARK: - Properties
     static let identifier = "DeadlineCell"
     private let label = UILabel()
@@ -42,15 +41,18 @@ class DeadlineCell: UITableViewCell {
         contentView.addSubview(selectedDateLabel)
 
         NSLayoutConstraint.activate([
+            // StackView constraints
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             stackView.heightAnchor.constraint(equalToConstant: 40),
 
+            // SelectedDateLabel constraints
             selectedDateLabel.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0),
             selectedDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             selectedDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
 
+            // DatePicker constraints
             datePickerView.topAnchor.constraint(equalTo: selectedDateLabel.bottomAnchor, constant: 0),
             datePickerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             datePickerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
