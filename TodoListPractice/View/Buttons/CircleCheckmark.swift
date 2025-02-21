@@ -28,6 +28,7 @@ class CircleCheckmark: UIButton {
                      for: .normal
             )
         }
+
         if let img = doneImage {
             self.widthAnchor.constraint(equalToConstant: img.size.width).isActive = true
         }

@@ -8,6 +8,7 @@ final class TodoDetailViewController: UIViewController {
     private let coreDataManager = CoreDataManager(modelName: "TodoListPractice")
     var task: TodoItemCoreData?
     private var isDeadlineExpanded = false
+    var priorityCell: PriorityCell?
 
     // MARK: - UI Components
     private let textView = CustomTextView()
@@ -125,10 +126,11 @@ final class TodoDetailViewController: UIViewController {
             return
         }
 
-        let priority = Priority(rawValue: "Normal") ?? .medium
+        let priority = Priority(rawValue: "high") ?? .medium
         let deadline: Date? = nil
         let taskId = self.task?.id
-        if let taskId { // Если задача существует, обновляем
+
+        if let taskId {
             coreDataManager.updateItem(
                 with: taskId,
                 newText: text,

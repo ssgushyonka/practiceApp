@@ -61,6 +61,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		32157DCD2D68835200469D75 /* TodoItemCell */ = {
+			isa = PBXGroup;
+			children = (
+				327639B32D5CAF48004F1EE6 /* TodoItemTableViewCell.swift */,
+			);
+			path = TodoItemCell;
+			sourceTree = "<group>";
+		};
 		327639892D5CA624004F1EE6 = {
 			isa = PBXGroup;
 			children = (
@@ -108,10 +116,10 @@
 		327639AD2D5CA6A6004F1EE6 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				32157DCD2D68835200469D75 /* TodoItemCell */,
 				327639C32D5CFEF3004F1EE6 /* TaskLabelCustomTextView */,
 				327639C82D5D2DBD004F1EE6 /* PriorityAndDeadlineView */,
 				32F88C1B2D5D48A500611B03 /* Buttons */,
-				327639B32D5CAF48004F1EE6 /* TodoItemTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

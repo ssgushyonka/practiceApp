@@ -1,4 +1,3 @@
-import Foundation
 import UIKit
 
 final class CustomTextView: UITextView, UITextViewDelegate {
@@ -36,16 +35,23 @@ final class CustomTextView: UITextView, UITextViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - Delegate funcs
-    func textViewDidChange( _: UITextView) {
-        placeHolderLabel.isHidden = !self.text.isEmpty
+    // MARK: - Override text property
+    override var text: String! {
+        didSet {
+            placeHolderLabel.isHidden = !text.isEmpty
+        }
     }
 
-    func textViewDidBeginEditing( _: UITextView) {
+    // MARK: - Delegate funcs
+    func textViewDidChange(_ textView: UITextView) {
+        placeHolderLabel.isHidden = !textView.text.isEmpty
+    }
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
         placeHolderLabel.isHidden = true
     }
 
-    func textViewDidEndEditing( _: UITextView) {
-        placeHolderLabel.isHidden = !self.text.isEmpty
+    func textViewDidEndEditing(_ textView: UITextView) {
+        placeHolderLabel.isHidden = !textView.text.isEmpty
     }
 }

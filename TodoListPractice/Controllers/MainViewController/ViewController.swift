@@ -144,19 +144,20 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         todoItems.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: TodoItemTableViewCell.Identifier,
-            for: indexPath
-        ) as? TodoItemTableViewCell else {
-            return UITableViewCell()
-        }
         let todoitem = todoItems[indexPath.row]
+
+        let cell = TodoItemTableViewCell(
+            style: .default,
+            reuseIdentifier: TodoItemTableViewCell.Identifier,
+            coreDataManager: coreDataManager
+        )
         cell.configure(with: todoitem) { [weak self] isDone in
             self?.todoItems[indexPath.row].isDone = isDone
             DispatchQueue.main.async {
                 tableView.reloadRows(at: [indexPath], with: .automatic)
             }
         }
+
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -1,12 +1,13 @@
 import Foundation
 import UIKit
 
-class TodoItemTableViewCell: UITableViewCell {
+final class TodoItemTableViewCell: UITableViewCell {
     // MARK: - Properties
     private var item: TodoItemCoreData?
     private var onCheckMarkTapped: ((Bool) -> Void)?
     static let Identifier = "TodoItemTableViewCell"
     private let checkMarkButton = CircleCheckmark()
+    private let coreDataManager: CoreDataManager
 
     // MARK: - UI Components
     private let titleLabel: UILabel = {
@@ -26,12 +27,12 @@ class TodoItemTableViewCell: UITableViewCell {
     }()
 
     // MARK: - Overriden funcs
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    init(style: UITableViewCell.CellStyle, reuseIdentifier: String?, coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         setupConstraints()
         self.separatorInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 0)
-
         checkMarkButton.addTarget(self, action: #selector(checkMarkTapped), for: .touchUpInside)
     }
 
@@ -94,17 +95,21 @@ class TodoItemTableViewCell: UITableViewCell {
 
         let attributedString = NSMutableAttributedString(string: item.text ?? "")
         if item.isDone {
-            attributedString.addAttribute(
-                .strikethroughStyle,
-                value: NSUnderlineStyle.single.rawValue,
-                range: NSRange(location: 0, length: attributedString.length))
+            attributedString.addAttribute(.strikethroughStyle, value: NSUnderlineStyle.single.rawValue,
+                                          range: NSRange(location: 0, length: attributedString.length))
         } else {
-            attributedString.removeAttribute(
-                .strikethroughStyle,
-                range: NSRange(location: 0, length: attributedString.length))
+            attributedString.removeAttribute(.strikethroughStyle,
+                                             range: NSRange(location: 0, length: attributedString.length))
         }
 
         titleLabel.attributedText = attributedString
+        coreDataManager.saveContext { error in
+            if let error {
+                print("Item save error: \(error.localizedDescription)")
+            } else {
+                print("Changes are saved")
+            }
+        }
         onCheckMarkTapped?(item.isDone)
     }
 }
