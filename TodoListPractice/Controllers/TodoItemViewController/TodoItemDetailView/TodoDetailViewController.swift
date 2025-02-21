@@ -3,7 +3,7 @@ import UIKit
 
 final class TodoDetailViewController: UIViewController {
     // MARK: - Properties
-    var onSave: ((String, Error?) -> Void)?
+    var onSave: ((String, Priority, Error?) -> Void)?
     var onDelete: ((String) -> Void)?
     private let coreDataManager = CoreDataManager(modelName: "TodoListPractice")
     var task: TodoItemCoreData?
@@ -142,10 +142,10 @@ final class TodoDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let error {
                         print("Error updating item: \(error)")
-                        self.onSave?(text, error)
+                        self.onSave?(text, priority, error)
                     } else {
                         print("Item updated")
-                        self.onSave?(text, nil)
+                        self.onSave?(text, priority, nil)
                         self.dismiss(animated: true)
                     }
                 }
@@ -160,10 +160,10 @@ final class TodoDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let error {
                         print("Error saving item: \(error)")
-                        self.onSave?(text, error)
+                        self.onSave?(text, priority, error)
                     } else {
                         print("Item saved")
-                        self.onSave?(text, nil)
+                        self.onSave?(text, priority, nil)
                         self.dismiss(animated: true)
                     }
                 }

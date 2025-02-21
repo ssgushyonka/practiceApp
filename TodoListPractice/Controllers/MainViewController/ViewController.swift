@@ -124,7 +124,7 @@ final class ViewController: UIViewController {
         print("add button tapped")
 
         let detailViewController = TodoDetailViewController()
-        detailViewController.onSave = { [weak self] _, error in
+        detailViewController.onSave = { [weak self] _, _, error in
             guard let self else { return }
             DispatchQueue.main.async {
                 if let error {
@@ -170,19 +170,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let detailViewController = TodoDetailViewController()
         detailViewController.task = selectedTask
 
-        detailViewController.onSave = { [weak self] updatedText, _ in
+        detailViewController.onSave = { [weak self] updatedText, updatedPriority, _ in
             guard let self else { return }
             let taskId = selectedTask.id ?? ""
             print("Updating item with id: \(taskId)")
             self.coreDataManager.updateItem(
                 with: taskId,
                 newText: updatedText,
+                newPriority: updatedPriority,
                 completion: { error in
                     if let error {
                         print("Error updating task: \(error)")
                     } else {
                         DispatchQueue.main.async {
                             selectedTask.text = updatedText
+                            selectedTask.priority = updatedPriority.rawValue
                             tableView.reloadRows(at: [indexPath], with: .automatic)
                         }
                     }
