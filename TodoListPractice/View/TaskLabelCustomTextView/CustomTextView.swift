@@ -47,7 +47,7 @@ final class CustomTextView: UITextView, UITextViewDelegate {
         placeHolderLabel.isHidden = !textView.text.isEmpty
     }
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    func textViewDidBeginEditing(_ _: UITextView) {
         placeHolderLabel.isHidden = true
     }
 

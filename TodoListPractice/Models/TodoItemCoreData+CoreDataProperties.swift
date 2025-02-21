@@ -27,7 +27,7 @@ extension TodoItemCoreData: Identifiable {
 extension TodoItemCoreData {
     var priorityEnum: Priority {
         get {
-            return Priority(rawValue: priority ?? "") ?? .medium
+            return Priority(rawValue: priority ?? "") ?? .low
         }
         set {
             priority = newValue.rawValue

@@ -9,6 +9,7 @@ final class TodoDetailViewController: UIViewController {
     var task: TodoItemCoreData?
     private var isDeadlineExpanded = false
     var priorityCell: PriorityCell?
+    var selectedPriority: Priority = .low
 
     // MARK: - UI Components
     private let textView = CustomTextView()
@@ -126,7 +127,7 @@ final class TodoDetailViewController: UIViewController {
             return
         }
 
-        let priority = Priority(rawValue: "high") ?? .medium
+        let priority = selectedPriority
         let deadline: Date? = nil
         let taskId = self.task?.id
 
@@ -202,6 +203,9 @@ extension TodoDetailViewController: UITableViewDataSource, UITableViewDelegate {
         if indexPath.row == 0 {
             let cell = PriorityCell(style: .default, reuseIdentifier: PriorityCell.identifier)
             cell.selectionStyle = .none
+            cell.onPriorityChanged = { [weak self] priority in
+                self?.selectedPriority = priority
+            }
             return cell
         }
         let cell = DeadlineCell(style: .default, reuseIdentifier: DeadlineCell.identifier)

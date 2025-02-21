@@ -69,6 +69,9 @@ final class ViewController: UIViewController {
         }
         setupUI()
         setupConstraints()
+        if let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last {
+            print("Database URL: \(url)")
+        }
     }
 
     // MARK: - Setup UI

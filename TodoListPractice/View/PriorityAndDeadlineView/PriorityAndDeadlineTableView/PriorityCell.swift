@@ -4,9 +4,10 @@ final class PriorityCell: UITableViewCell {
     // MARK: - Properties
     static let identifier = "PriorityCell"
     private let label = UILabel()
-    private let segmentedControl = UISegmentedControl(items: ["↓", "no", "‼️"])
+    private let segmentedControl = UISegmentedControl(items: ["no", "‼️"])
     private var task: TodoItemCoreData?
     private var coreDataManager: CoreDataManager?
+    var onPriorityChanged: ((Priority) -> Void)?
 
     // MARK: - Overriden funcs
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -25,7 +26,7 @@ final class PriorityCell: UITableViewCell {
         label.textColor = .black
         self.backgroundColor = .white
 
-        segmentedControl.selectedSegmentIndex = 1
+        segmentedControl.selectedSegmentIndex = 0
         segmentedControl.backgroundColor = ColorsExtensions.supportOverlay
         segmentedControl.selectedSegmentTintColor = .white
         segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
@@ -41,41 +42,23 @@ final class PriorityCell: UITableViewCell {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ])
-    }
-
-    func configure(with task: TodoItemCoreData, coreDataManager: CoreDataManager) {
-        self.task = task
-        self.coreDataManager = coreDataManager
-
-        switch task.priority {
-        case "low":
-            segmentedControl.selectedSegmentIndex = 0
-        case "medium":
-            segmentedControl.selectedSegmentIndex = 1
-        case "high":
-            segmentedControl.selectedSegmentIndex = 2
-        default:
-            segmentedControl.selectedSegmentIndex = 1
-        }
-
         segmentedControl.addTarget(self, action: #selector(priorityChanged), for: .valueChanged)
     }
 
     @objc
     private func priorityChanged() {
-        guard let task = task, let coreDataManager = coreDataManager else { return }
+        print("priorityChanged called")
         let priority: Priority
         switch segmentedControl.selectedSegmentIndex {
         case 0:
             priority = .low
         case 1:
-            priority = .medium
-        case 2:
             priority = .high
         default:
-            priority = .medium
+            priority = .low
         }
-
+        onPriorityChanged?(priority)
+        guard let task = task, let coreDataManager = coreDataManager else { return }
         coreDataManager.updateItem(
             with: task.id ?? "",
             newText: nil,

@@ -82,16 +82,19 @@ final class TodoItemTableViewCell: UITableViewCell {
         }
         titleLabel.attributedText = attributedString
         titleLabel.font = .systemFont(ofSize: 16)
-        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priorityEnum == .high)
+
+        let isHighPriority = item.priorityEnum == .high
+        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: isHighPriority)
         deadlineLabel.text = item.formattedDeadline
     }
 
-    // MARK: - Action funcs
     @objc
     private func checkMarkTapped() {
         guard let item else { return }
         item.isDone.toggle()
-        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: item.priorityEnum == .high)
+
+        let isHighPriority = item.priorityEnum == .high
+        checkMarkButton.setAppearance(isDone: item.isDone, highPriority: isHighPriority)
 
         let attributedString = NSMutableAttributedString(string: item.text ?? "")
         if item.isDone {
